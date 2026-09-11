@@ -10,10 +10,8 @@ import {
   Clock, 
   X, 
   AlertCircle,
-  Globe,
   Bot
 } from 'lucide-react';
-import { LANGUAGES } from '../utils/translations';
 
 interface HomeHeroProps {
   onAnalyze: (data: { url?: string; documentText?: string; documentName?: string; language?: string }) => void;
@@ -31,7 +29,6 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
   onOpenChat
 }) => {
   const [urlInput, setUrlInput] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [selectedFile, setSelectedFile] = useState<{ name: string; text: string; size: number } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -83,12 +80,12 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
       onAnalyze({
         documentText: selectedFile.text,
         documentName: selectedFile.name,
-        language: selectedLanguage
+        language: 'en'
       });
     } else if (urlInput.trim()) {
       onAnalyze({
         url: urlInput.trim(),
-        language: selectedLanguage
+        language: 'en'
       });
     }
   };
@@ -97,7 +94,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
     onClearError();
     setSelectedFile(null);
     setUrlInput(sampleUrl);
-    onAnalyze({ url: sampleUrl, language: selectedLanguage });
+    onAnalyze({ url: sampleUrl, language: 'en' });
   };
 
   return (
@@ -109,20 +106,15 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
       <div className="w-full max-w-3xl mx-auto flex flex-col items-center text-center">
         
         {/* Minimal Category Pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181b1f] border border-[#2a2e35] text-xs font-medium text-[#94a3b8] mb-6 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181b1f] border border-[#2a2e35] text-xs font-medium text-[#94a3b8] mb-5 shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-[#3b82f6]" />
           <span>AI-Powered Legal Clarity & Privacy Intelligence</span>
         </div>
 
         {/* Central Strong Heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white mb-3 leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6 leading-tight">
           Understand What You're Agreeing To.
         </h1>
-
-        {/* Subtitle */}
-        <div className="text-sm sm:text-base text-[#94a3b8] max-w-2xl mb-8 leading-relaxed font-normal">
-          Paste a Terms & Conditions link or upload a document and let AI explain what really matters.
-        </div>
 
         {/* Central Input Box Area */}
         <form
@@ -181,11 +173,11 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
             />
           </div>
 
-          {/* Bottom Action Row */}
-          <div className="mt-3 pt-3 border-t border-[#2a2e35] flex flex-wrap items-center justify-between gap-3">
+          {/* Bottom Action Row: Upload Document on left, Analyze on right */}
+          <div className="mt-3 pt-3 border-t border-[#2a2e35] flex items-center justify-between gap-3">
             
-            {/* Upload Document Button & Language Selector */}
-            <div className="flex flex-wrap items-center gap-2">
+            {/* Upload Document Button */}
+            <div className="flex items-center">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -204,27 +196,6 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
                 <UploadCloud className="w-3.5 h-3.5 text-[#3b82f6]" />
                 <span>Upload Document</span>
               </button>
-
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#181b1f] border border-[#2a2e35] text-xs text-[#94a3b8]">
-                <Globe className="w-3 h-3 text-[#3b82f6]" />
-                <select
-                  id="hero-language-selector"
-                  value={selectedLanguage}
-                  onChange={(e) => setSelectedLanguage(e.target.value)}
-                  disabled={isLoading}
-                  className="bg-transparent text-[#f1f5f9] text-xs font-medium focus:outline-none cursor-pointer"
-                >
-                  {LANGUAGES.map((l) => (
-                    <option key={l.code} value={l.code} className="bg-[#181b1f] text-[#f1f5f9]">
-                      {l.flag} {l.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <span className="text-[11px] text-slate-500 hidden sm:inline">
-                or drag & drop
-              </span>
             </div>
 
             {/* Analyze Button */}
@@ -254,13 +225,8 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
           </div>
         )}
 
-        {/* Subtle Helper Text */}
-        <p className="text-xs text-slate-500 mt-3 font-normal">
-          Supports Terms of Service, Privacy Policies, End User License Agreements, and Service Terms.
-        </p>
-
         {/* Quick Sample Links for instant testing */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-[#94a3b8]">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs text-[#94a3b8]">
           <span className="text-slate-500 font-medium">Quick Test:</span>
           {[
             { name: 'Spotify Terms', url: 'https://www.spotify.com/legal/end-user-agreement/' },
@@ -282,7 +248,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
         </div>
 
         {/* 4 Small Example Capabilities below */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 w-full text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10 w-full text-left">
           
           <div className="p-4 rounded-xl bg-[#1c1f26] border border-[#2a2e35] hover:border-slate-600 transition group">
             <div className="w-8 h-8 rounded-lg bg-[rgba(59,130,246,0.1)] border border-blue-500/20 flex items-center justify-center text-[#3b82f6] mb-3">
@@ -316,22 +282,18 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
 
           <div 
             onClick={onOpenChat}
-            className={`p-4 rounded-xl transition group ${
-              onOpenChat ? 'cursor-pointer hover:border-[#1677FF]' : ''
+            className={`p-4 rounded-xl bg-[#1c1f26] border border-[#2a2e35] hover:border-[#1677FF] transition group ${
+              onOpenChat ? 'cursor-pointer' : ''
             }`}
-            style={{
-              backgroundColor: '#081426',
-              border: '1px solid #172B46'
-            }}
           >
-            <div className="w-8 h-8 rounded-lg bg-[#0B1F3A] border border-[#172B46] flex items-center justify-center text-[#2F8CFF] group-hover:bg-[#1677FF] group-hover:text-white transition-colors mb-3">
+            <div className="w-8 h-8 rounded-lg bg-[rgba(59,130,246,0.1)] border border-blue-500/20 flex items-center justify-center text-[#2F8CFF] group-hover:bg-[#1677FF] group-hover:text-white transition-colors mb-3">
               <Bot className="w-4 h-4" />
             </div>
             <div className="flex items-center gap-1.5 mb-1">
               <h3 className="text-sm font-semibold text-white">Ask Clear Clause AI</h3>
               <span className="text-[9px] px-1 py-0.2 rounded bg-[#1677FF]/20 text-[#2F8CFF] font-semibold border border-[#1677FF]/30">NEW</span>
             </div>
-            <p className="text-xs text-[#A7B4C8] leading-relaxed">
+            <p className="text-xs text-[#94a3b8] leading-relaxed">
               Chat with our AI assistant to decode clauses, summarize contracts, and look up legal terms.
             </p>
           </div>

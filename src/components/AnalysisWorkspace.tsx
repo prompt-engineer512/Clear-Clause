@@ -15,7 +15,6 @@ import {
   Download, 
   Volume2, 
   VolumeX, 
-  Globe, 
   ArrowLeft,
   ExternalLink,
   Calendar,
@@ -183,23 +182,6 @@ export const AnalysisWorkspace: React.FC<AnalysisWorkspaceProps> = ({
           {/* Action Toolbar */}
           <div className="flex flex-wrap items-center gap-2">
             
-            {/* Language Selector */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#181b1f] border border-[#2a2e35] text-xs text-[#94a3b8]">
-              <Globe className="w-3.5 h-3.5 text-[#3b82f6]" />
-              <select
-                id="language-selector"
-                value={selectedLanguage}
-                onChange={(e) => setSelectedLanguage(e.target.value)}
-                className="bg-transparent text-[#f1f5f9] text-xs font-medium focus:outline-none cursor-pointer"
-              >
-                {LANGUAGES.map((l) => (
-                  <option key={l.code} value={l.code} className="bg-[#181b1f] text-[#f1f5f9]">
-                    {l.flag} {l.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
             {/* Listen Audio Button */}
             <button
               type="button"

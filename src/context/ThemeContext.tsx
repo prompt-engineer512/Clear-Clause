@@ -14,28 +14,6 @@ export const THEME_STORAGE_KEY = 'clearclause_theme';
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    // 1. Check client localStorage preference
-    try {
-      if (typeof window !== 'undefined') {
-        const stored = localStorage.getItem(THEME_STORAGE_KEY);
-        if (stored === 'light' || stored === 'dark') {
-          return stored;
-        }
-      }
-    } catch {
-      // ignore storage access errors
-    }
-
-    // 2. Fall back to system / browser preference
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return prefersDark ? 'dark' : 'light';
-    }
-
-    return 'dark';
-  });
-
   // Apply theme to <html> document root immediately
   const applyTheme = (currentTheme: Theme) => {
     if (typeof document === 'undefined') return;
@@ -45,13 +23,42 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.remove('light');
       root.setAttribute('data-theme', 'dark');
       root.style.colorScheme = 'dark';
+      if (document.body) {
+        document.body.classList.add('dark');
+        document.body.classList.remove('light');
+      }
     } else {
       root.classList.remove('dark');
       root.classList.add('light');
       root.setAttribute('data-theme', 'light');
       root.style.colorScheme = 'light';
+      if (document.body) {
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+      }
     }
   };
+
+  const [theme, setThemeState] = useState<Theme>(() => {
+    // 1. Check client localStorage preference
+    let initial: Theme = 'dark';
+    try {
+      if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (stored === 'light' || stored === 'dark') {
+          initial = stored;
+        } else if (window.matchMedia) {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          initial = prefersDark ? 'dark' : 'light';
+        }
+      }
+    } catch {
+      // ignore storage access errors
+    }
+
+    applyTheme(initial);
+    return initial;
+  });
 
   useEffect(() => {
     applyTheme(theme);
@@ -70,7 +77,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       try {
         const stored = localStorage.getItem(THEME_STORAGE_KEY);
         if (!stored) {
-          setThemeState(e.matches ? 'dark' : 'light');
+          const next = e.matches ? 'dark' : 'light';
+          applyTheme(next);
+          setThemeState(next);
         }
       } catch {
         // ignore
@@ -81,10 +90,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setThemeState((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, next);
+      } catch {}
+      return next;
+    });
   };
 
   const setTheme = (newTheme: Theme) => {
+    applyTheme(newTheme);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+    } catch {}
     setThemeState(newTheme);
   };
 
