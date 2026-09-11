@@ -1,0 +1,304 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------
+   CENTRALIZED THEME TOKENS
+   ------------------------------------------------------------- */
+:root {
+  /* LIGHT THEME (Default) */
+  --background: #FFFFFF;
+  --bg-base: #FFFFFF;
+  --bg-surface: #F7F7F7;
+  --bg-card: #FFFFFF;
+  --foreground: #111111;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #737373;
+  --border: #E5E5E5;
+  --border-color: #E5E5E5;
+  --input: #F7F7F7;
+  --bg-input: #F7F7F7;
+  --hover: #EEEEEE;
+  --bg-hover: #EEEEEE;
+
+  /* Functional accent tokens */
+  --accent: #1677FF;
+  --accent-hover: #2F8CFF;
+  --safe: #10b981;
+  --caution: #f59e0b;
+  --risk: #ef4444;
+
+  /* Chatbot Light Theme Tokens */
+  --chat-bg: #FFFFFF;
+  --chat-header: #F7F7F7;
+  --chat-border: #E5E5E5;
+  --chat-pill-bg: #F7F7F7;
+  --chat-pill-hover: #EEEEEE;
+  --chat-user-bg: #EBF3FF;
+  --chat-user-text: #0F172A;
+  --chat-user-border: #D1E5FF;
+  --chat-ai-bg: #F7F7F7;
+  --chat-ai-text: #111111;
+  --chat-ai-border: #E5E5E5;
+  --chat-input-bg: #FFFFFF;
+
+  /* Shadows */
+  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+}
+
+.dark, html.dark {
+  /* DARK THEME */
+  --background: #0A0A0A;
+  --bg-base: #0A0A0A;
+  --bg-surface: #111111;
+  --bg-card: #181818;
+  --foreground: #FFFFFF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A3A3A3;
+  --text-muted: #737373;
+  --border: #2A2A2A;
+  --border-color: #2A2A2A;
+  --input: #111111;
+  --bg-input: #111111;
+  --hover: #242424;
+  --bg-hover: #242424;
+
+  /* Functional accent tokens */
+  --accent: #1677FF;
+  --accent-hover: #2F8CFF;
+  --safe: #10b981;
+  --caution: #f59e0b;
+  --risk: #ef4444;
+
+  /* Chatbot Dark Theme Tokens */
+  --chat-bg: #05070D;
+  --chat-header: #081426;
+  --chat-border: #172B46;
+  --chat-pill-bg: #081426;
+  --chat-pill-hover: #0B1F3A;
+  --chat-user-bg: #0B1F3A;
+  --chat-user-text: #FFFFFF;
+  --chat-user-border: #172B46;
+  --chat-ai-bg: #081426;
+  --chat-ai-text: #FFFFFF;
+  --chat-ai-border: #172B46;
+  --chat-input-bg: #05070D;
+
+  /* Shadows */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* -------------------------------------------------------------
+   SMOOTH TRANSITIONS
+   ------------------------------------------------------------- */
+body, 
+header, 
+nav, 
+main, 
+footer, 
+section, 
+aside, 
+div, 
+button, 
+input, 
+textarea, 
+select {
+  transition: 
+    background-color 0.2s ease, 
+    color 0.2s ease, 
+    border-color 0.2s ease;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+/* Dynamic Radial Gradient Background */
+.app-radial-bg {
+  background: radial-gradient(circle at top right, #f1f5f9 0%, #FFFFFF 65%);
+}
+
+html.dark .app-radial-bg {
+  background: radial-gradient(circle at top right, #1e293b 0%, #0A0A0A 65%);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Sleek container utilities */
+.sleek-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}
+
+.sleek-surface {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+}
+
+/* -------------------------------------------------------------
+   PALETTE REMAPPING UTILITIES
+   Ensures existing codebase components adapt perfectly to Dark/Light
+   ------------------------------------------------------------- */
+
+/* Base & Card backgrounds */
+.theme-bg-base { background-color: var(--bg-base) !important; }
+.theme-bg-surface { background-color: var(--bg-surface) !important; }
+.theme-bg-card { background-color: var(--bg-card) !important; }
+.theme-bg-input { background-color: var(--bg-input) !important; }
+.theme-border { border-color: var(--border-color) !important; }
+.theme-text-primary { color: var(--text-primary) !important; }
+.theme-text-secondary { color: var(--text-secondary) !important; }
+
+/* In Light Mode: Remap hardcoded dark background and border utilities */
+html:not(.dark) .bg-\[\#121417\],
+html:not(.dark) [class*="bg-[#121417]"] {
+  background-color: #FFFFFF !important;
+}
+
+html:not(.dark) .bg-\[\#181b1f\],
+html:not(.dark) [class*="bg-[#181b1f]"] {
+  background-color: #F7F7F7 !important;
+}
+
+html:not(.dark) .bg-\[\#1c1f26\],
+html:not(.dark) [class*="bg-[#1c1f26]"] {
+  background-color: #FFFFFF !important;
+}
+
+html:not(.dark) .bg-\[\#20242c\],
+html:not(.dark) [class*="bg-[#20242c]"] {
+  background-color: #F7F7F7 !important;
+}
+
+html:not(.dark) .bg-\[\#131923\],
+html:not(.dark) [class*="bg-[#131923]"] {
+  background-color: #FFFFFF !important;
+}
+
+html:not(.dark) .bg-\[\#0a0e14\],
+html:not(.dark) [class*="bg-[#0a0e14]"] {
+  background-color: #F7F7F7 !important;
+}
+
+html:not(.dark) .bg-slate-900,
+html:not(.dark) [class*="bg-slate-900"] {
+  background-color: #F7F7F7 !important;
+}
+
+html:not(.dark) .border-\[\#2a2e35\],
+html:not(.dark) [class*="border-[#2a2e35]"],
+html:not(.dark) [class*="border-slate-800"] {
+  border-color: #E5E5E5 !important;
+}
+
+html:not(.dark) .text-\[\#f1f5f9\],
+html:not(.dark) [class*="text-[#f1f5f9]"] {
+  color: #111111 !important;
+}
+
+html:not(.dark) .text-\[\#94a3b8\],
+html:not(.dark) [class*="text-[#94a3b8]"],
+html:not(.dark) [class*="text-slate-400"] {
+  color: #555555 !important;
+}
+
+html:not(.dark) .text-\[\#cbd5e1\],
+html:not(.dark) [class*="text-[#cbd5e1]"],
+html:not(.dark) [class*="text-slate-300"],
+html:not(.dark) [class*="text-slate-200"] {
+  color: #111111 !important;
+}
+
+/* Ensure headings and titles with text-white become primary text in light mode */
+html:not(.dark) h1.text-white,
+html:not(.dark) h2.text-white,
+html:not(.dark) h3.text-white,
+html:not(.dark) h4.text-white,
+html:not(.dark) .font-bold.text-white:not([class*="bg-[#3b82f6]"]):not([class*="bg-blue"]):not([class*="bg-[#1677FF]"]),
+html:not(.dark) .font-semibold.text-white:not([class*="bg-[#3b82f6]"]):not([class*="bg-blue"]):not([class*="bg-[#1677FF]"]) {
+  color: #111111 !important;
+}
+
+/* Hover effects in Light Mode */
+html:not(.dark) [class*="hover:bg-[#181b1f]"]:hover,
+html:not(.dark) [class*="hover:bg-[#1c1f26]"]:hover {
+  background-color: #EEEEEE !important;
+}
+
+html:not(.dark) [class*="hover:text-white"]:hover,
+html:not(.dark) [class*="hover:text-[#f1f5f9]"]:hover {
+  color: #111111 !important;
+}
+
+html:not(.dark) [class*="hover:border-slate-600"]:hover {
+  border-color: #CBD5E1 !important;
+}
+
+/* In Dark Mode: Enforce exact prompt hex palette */
+html.dark .bg-\[\#121417\],
+html.dark [class*="bg-[#121417]"] {
+  background-color: #0A0A0A !important;
+}
+
+html.dark .bg-\[\#181b1f\],
+html.dark [class*="bg-[#181b1f]"] {
+  background-color: #111111 !important;
+}
+
+html.dark .bg-\[\#1c1f26\],
+html.dark [class*="bg-[#1c1f26]"] {
+  background-color: #181818 !important;
+}
+
+html.dark .bg-\[\#131923\],
+html.dark [class*="bg-[#131923]"] {
+  background-color: #181818 !important;
+}
+
+html.dark .bg-\[\#0a0e14\],
+html.dark [class*="bg-[#0a0e14]"] {
+  background-color: #111111 !important;
+}
+
+html.dark .border-\[\#2a2e35\],
+html.dark [class*="border-[#2a2e35]"],
+html.dark [class*="border-slate-800"] {
+  border-color: #2A2A2A !important;
+}
+
+html.dark .text-\[\#f1f5f9\],
+html.dark [class*="text-[#f1f5f9]"] {
+  color: #FFFFFF !important;
+}
+
+html.dark .text-\[\#94a3b8\],
+html.dark [class*="text-[#94a3b8]"],
+html.dark [class*="text-slate-400"] {
+  color: #A3A3A3 !important;
+}
+
+html.dark [class*="hover:bg-[#181b1f]"]:hover,
+html.dark [class*="hover:bg-[#1c1f26]"]:hover {
+  background-color: #242424 !important;
+}

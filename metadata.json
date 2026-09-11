@@ -1,0 +1,8 @@
+{
+  "name": "ClearClause",
+  "description": "AI-powered Terms and Conditions analyzer helping users understand complex legal policies, privacy terms, and hidden clauses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
